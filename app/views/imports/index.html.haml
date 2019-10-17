@@ -1,3 +1,16 @@
-%h1
-  Import#index
-
+%p#notice= notice
+%h1 Imports
+%table
+  %thead
+    %tr
+      %th Title
+      %th{:colspan => "3"}
+  %tbody
+    - @imports.each do |import|
+      %tr
+        %td= import.title
+        %td= link_to 'Show', import
+        %td= link_to 'To \'Start import\' page', edit_import_path(import)
+        %td= link_to 'Destroy', import, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Import', new_import_path

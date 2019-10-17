@@ -10,12 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_180217) do
+ActiveRecord::Schema.define(version: 2019_10_17_100206) do
 
   create_table "imports", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "file_file_name"
+    t.string "file_content_type"
+    t.integer "file_file_size"
+    t.datetime "file_updated_at"
   end
 
   create_table "users", force: :cascade do |t|
@@ -25,6 +29,8 @@ ActiveRecord::Schema.define(version: 2019_10_15_180217) do
     t.date "date_of_birth", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "import_id"
+    t.index ["import_id"], name: "index_users_on_import_id"
   end
 
 end
