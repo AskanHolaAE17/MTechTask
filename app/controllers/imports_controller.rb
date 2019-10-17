@@ -43,6 +43,9 @@ class ImportsController < ApplicationController
     CSV.foreach(@import.file.path, headers: true) do |row|      
       row_hash = row.to_h
       row_hash["import_id"] = @import.id 
+            
+      # The day is put on the first place 
+      # to make the data valid for saving in DB
       
       if row_hash['date_of_birth']
         date = row_hash['date_of_birth'].split('/')
