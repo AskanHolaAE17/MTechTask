@@ -2,7 +2,7 @@ require 'csv'
 
 class ImportsController < ApplicationController
 
-  before_action :set_import, only: [:show, :edit, :update, :destroy]
+  before_action :set_import,         only: [:import_process, :show, :edit, :update, :destroy]
 
   def index
     @imports = Import.all
@@ -38,9 +38,17 @@ class ImportsController < ApplicationController
   
   
   def update     
-  
     users = []
-    CSV.foreach(@import.file.path, headers: true) do |row|      
+    @count_of_created_users     = 0
+    @count_of_not_created_users = 0
+    
+    @import.count_of_lines_in_csv = CSV.read(@import.file.path).count - 1
+    @import.started_at    = Time.now
+    @import.import_status = 'started'
+    @import.save
+    
+    
+    CSV.foreach(@import.file.path, headers: true).with_index do |row, index|      
       row_hash = row.to_h
       row_hash["import_id"] = @import.id 
             
@@ -55,17 +63,55 @@ class ImportsController < ApplicationController
       user = User.new(row_hash)
 
       if user.valid?     
-        users << row_hash       
+        users << row_hash   
+        @count_of_created_users += 1 
+                
+      else  
+        @count_of_not_created_users += 1    
+      end
+      
+      if index % 10 == 0
+        @import.count_of_created_users     = @count_of_created_users
+        @import.count_of_not_created_users = @count_of_not_created_users
+        @import.save
       end
     end    
+        
+    @import.completed_at  = Time.now
+    @import.import_status = 'completed'
+    @import.count_of_created_users     = @count_of_created_users
+    @import.count_of_not_created_users = @count_of_not_created_users
+    @import.save
+            
     User.import(users)  
     
     render :show
   end 
   
+  def import_process
+    @count_of_created_users     = @import.count_of_created_users.to_s
+    @count_of_not_created_users = @import.count_of_not_created_users.to_s
+    @import_status              = @import.import_status
+    
+    @created_at              = @import.created_at 
+    @started_at              = @import.started_at || 'not started'
+    @completed_at            = @import.completed_at || 'not completed'
+    
+    @percentage = if @import.count_of_lines_in_csv > 0
+      (@import.count_of_created_users + @import.count_of_not_created_users).to_f /
+       @import.count_of_lines_in_csv.to_f *
+       100
+    else
+      0
+    end 
+    
+    @percentage = @percentage.to_i                  
+    
+    @ended_import = true if @import_status == 'completed'
+  end
+  
   
   def show      
-  
   end
   
   
@@ -84,6 +130,7 @@ class ImportsController < ApplicationController
     def set_import
       @import = Import.find(params[:id])
     end  
+    
 
     def import_params
       params.require(:import).permit(:title, :file)

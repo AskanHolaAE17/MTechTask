@@ -1,4 +1,47 @@
-= form_for @import, url: import_path(@import), html: { multipart: true } do |form|
-  = form.submit
+#block_hide{ style: 'display: none;' }    
+  ="#{'/import_process/' + @import.id.to_s}"
+  
 
-= link_to 'All imports', imports_path
+#block_count_of_successfully_created
+  Count of successfully created customers: 0
+  
+#block_count_of_successfully_created  
+  Count of customers that were not created: 0
+  
+#block_import_status
+  Import Status: created
+  
+#created_at
+  Import created at:
+  =@import.created_at
+
+#started_at
+  Import started at: not started
+
+#completed_at  
+  Import completed at: not completed
+
+    
+= form_for @import, url: import_path(@import), html: { multipart: true } do |form|
+  = form.submit 'Start Import', id: 'submit'
+
+= link_to 'Delete Import', @import, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'Main Page', imports_path
+
+    
+:javascript 
+  
+  $("#submit").on("click",function(){
+    window.open(document.getElementById("block_hide").textContent,'_blank');
+  });  
+
+
+  
+
+  
+  
+  
+  
+
+  

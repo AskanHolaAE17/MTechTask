@@ -10,16 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_17_100206) do
+ActiveRecord::Schema.define(version: 2019_10_19_010335) do
 
   create_table "imports", force: :cascade do |t|
-    t.string "title", null: false
+    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "file_file_name"
     t.string "file_content_type"
     t.integer "file_file_size"
     t.datetime "file_updated_at"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.string "import_status", default: "created"
+    t.integer "count_of_created_users", default: 0
+    t.integer "count_of_not_created_users", default: 0
+    t.integer "count_of_lines_in_csv", default: 0
   end
 
   create_table "users", force: :cascade do |t|
