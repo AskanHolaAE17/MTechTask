@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   
   resources :imports
   
+  get '/import_process/:id', to: 'imports#import_process'
+  
 end

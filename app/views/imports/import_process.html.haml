@@ -1,0 +1,53 @@
+#block_count_of_successfully_created
+  Count of successfully created customers: 
+  =@count_of_created_users
+  
+#block_count_of_successfully_created  
+  Count of customers that were not created:
+  =@count_of_not_created_users 
+  
+#block_import_status
+  Import Status:
+  =@import_status 
+  
+#created_at
+  Import created at:
+  =@created_at
+
+#started_at
+  Import started at:
+  =@started_at
+
+#completed_at  
+  Import completed at:
+  =@completed_at
+  
+  
+= form_for @import, url: import_path(@import), html: { multipart: true } do |form|
+  = form.submit 'Start Import'
+
+= link_to 'Delete Import', @import, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'Main Page', imports_path   
+
+
+
+%h3
+  Progress:
+  =@percentage 
+  percentages 
+
+    
+    
+- unless @ended_import
+  :javascript   
+    setTimeout(function(){
+      window.location.reload(1);
+    }, 250);
+    
+- else   
+  :javascript 
+    window.close();
+
+  
+
