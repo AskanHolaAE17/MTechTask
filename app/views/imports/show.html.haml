@@ -1,0 +1,19 @@
+%p
+  Results of import:
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th{:colspan => "3"}
+  %tbody
+    - @import.users.each do |user|
+      %tr
+        %td= user.first_name
+        %td= user.last_name
+        %td= user.email
+        %td= user.date_of_birth.to_date.strftime('%e %b, %Y')
+
+= link_to 'Main page', '/'
+
+= flash[:notice]
