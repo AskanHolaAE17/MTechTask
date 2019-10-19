@@ -9,5 +9,13 @@ class User < ApplicationRecord
   validates :date_of_birth, presence: true
   validates :date_of_birth, date: {after:  Proc.new { Time.now - 100.years },
                                    before: Proc.new { Time.now - 18.years } }
+                                   
+                                   
+                                   
+  # Methods for Testing
+  
+  def younger_than_100_years?
+    date_of_birth.year > Time.now.year - 100
+  end                                                                                                          
 
 end
