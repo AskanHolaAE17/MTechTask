@@ -19,6 +19,10 @@ RSpec.describe Import, type: :model do
     
     # Cleaning
   end  
+  
+  it 'should have many users' do
+    should have_many(:users)
+  end
 
 end
 

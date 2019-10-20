@@ -19,10 +19,10 @@ RSpec.describe User, type: :model do
   end
   
   
-  it 'some clever description' do
+  it 'checking an unexisted field' do
     
     # Setup      
-    user = User.create
+    user = User.new
     
     # Exercise          
     
@@ -48,7 +48,7 @@ RSpec.describe User, type: :model do
   end  
   
   
-  it 'some clever description' do
+  it 'user is younger than 100 years' do
     
     # Setup      
     user = User.new(date_of_birth: Time.now.year - 99)
@@ -60,6 +60,10 @@ RSpec.describe User, type: :model do
     
     # Cleaning
         
+  end  
+  
+  it 'belongs to Import' do
+    should belong_to(:import)
   end  
 
 end
