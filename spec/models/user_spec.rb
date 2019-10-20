@@ -65,6 +65,14 @@ RSpec.describe User, type: :model do
   it 'belongs to Import' do
     should belong_to(:import)
   end  
+  
+  
+  it "is not valid without a first_name" do
+    user = UserService.new_with_all_params
+    user.first_name = nil
+    
+    expect(user).to_not be_valid
+  end    
 
 end
 
