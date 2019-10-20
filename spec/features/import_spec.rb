@@ -19,7 +19,7 @@ RSpec.feature "Imports", type: :feature do
   end
   
   scenario "User deletes an existing import record" do
-    import = Import.create(title: "Import Test", file_file_name: "4_users.csv", file_content_type: "text/plain", file_file_size: 234)
+    import = ImportCreator.call
     visit "/imports/" + import.id.to_s + '/edit'  
 
     click_on "Delete Import"
