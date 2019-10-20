@@ -25,7 +25,7 @@
 = form_for @import, url: import_path(@import), html: { multipart: true } do |form|
   = form.submit 'Start Import', id: 'submit'
 
-= link_to 'Delete Import', @import, method: :delete, data: { confirm: 'Are you sure?' }
+= link_to 'Delete Import', @import, method: :delete
 %br/
 = link_to 'Main Page', imports_path
 

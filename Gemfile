@@ -47,9 +47,6 @@ gem 'activerecord-import'
 # Date validation
 gem 'date_validator'
 
-# Rails variables in JS code
-gem 'gon'
-
 #Rspec
 
 group :development, :test do
