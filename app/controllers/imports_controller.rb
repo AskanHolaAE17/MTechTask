@@ -18,7 +18,7 @@ class ImportsController < ApplicationController
   end
   
   
-  def edit
+  def edit  
   end    
   
   
@@ -38,55 +38,48 @@ class ImportsController < ApplicationController
   
   
   def update     
-    users = []
-    @count_of_created_users     = 0
-    @count_of_not_created_users = 0
-    
-    @import.count_of_lines_in_csv = CSV.read(@import.file.path).count - 1
-    @import.started_at    = Time.now
-    @import.import_status = 'started'
-    @import.save
-    
+  
+    def make_the_date_valid(row_hash)
+      if row_hash['date_of_birth']
+        date = row_hash['date_of_birth'].split('/')
+        row_hash['date_of_birth'] = date[1] + '/' + date[0] + '/' + date[2]
+      end
+      row_hash
+    end        
+        
+    users = []    
+    ImportDataUpdater.update_after_started(@import)
     
     CSV.foreach(@import.file.path, headers: true).with_index do |row, index|      
       row_hash = row.to_h
       row_hash["import_id"] = @import.id 
             
       # The day is put on the first place 
-      # to make the data valid for saving in DB
-      
-      if row_hash['date_of_birth']
-        date = row_hash['date_of_birth'].split('/')
-        row_hash['date_of_birth'] = date[1] + '/' + date[0] + '/' + date[2]
-      end
+      # to make the data valid for saving in DB      
+      row_hash = make_the_date_valid(row_hash)
       
       user = User.new(row_hash)
 
       if user.valid?     
         users << row_hash   
-        @count_of_created_users += 1 
+        @import.count_of_created_users += 1 
                 
       else  
-        @count_of_not_created_users += 1    
+        @import.count_of_not_created_users += 1    
       end
       
       if index % 10 == 0
-        @import.count_of_created_users     = @count_of_created_users
-        @import.count_of_not_created_users = @count_of_not_created_users
         @import.save
       end
     end    
         
-    @import.completed_at  = Time.now
-    @import.import_status = 'completed'
-    @import.count_of_created_users     = @count_of_created_users
-    @import.count_of_not_created_users = @count_of_not_created_users
-    @import.save
+    ImportDataUpdater.update_after_completed(@import)    
             
     User.import(users)  
     
     render :show
   end 
+  
   
   def import_process
     @count_of_created_users     = @import.count_of_created_users.to_s
@@ -108,7 +101,7 @@ class ImportsController < ApplicationController
     @percentage = @percentage.to_i                  
     
     @ended_import = true if @import_status == 'completed'
-  end
+  end  
   
   
   def show      

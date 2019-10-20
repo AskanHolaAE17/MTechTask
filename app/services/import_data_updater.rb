@@ -1,0 +1,22 @@
+class ImportDataUpdater < ApplicationService
+
+  def initialize(import, *row_hash)
+    @import   = import
+    @row_hash = row_hash
+  end
+  
+  def update_after_started
+    @import.count_of_lines_in_csv = CSV.read(@import.file.path).count - 1
+    @import.started_at            = Time.now
+    @import.import_status         = 'started'
+    @import.save
+  end
+    
+  def update_after_completed
+    @import.completed_at  = Time.now
+    @import.import_status = 'completed'
+    @import.save     
+  end 
+      
+
+end
