@@ -1,5 +1,6 @@
-class AddBelongsToImportsToUsers < ActiveRecord::Migration[5.2]
+# frozen_string_literal: true
 
+class AddBelongsToImportsToUsers < ActiveRecord::Migration[5.2]
   def up
     change_table :users do |t|
       t.references :import, index: true
@@ -11,5 +12,4 @@ class AddBelongsToImportsToUsers < ActiveRecord::Migration[5.2]
       t.remove_references :import, index: true
     end
   end
-  
 end
