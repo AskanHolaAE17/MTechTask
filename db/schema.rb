@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,31 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_191_019_010_335) do
-  create_table 'imports', force: :cascade do |t|
-    t.string 'title'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.string 'file_file_name'
-    t.string 'file_content_type'
-    t.integer 'file_file_size'
-    t.datetime 'file_updated_at'
-    t.datetime 'started_at'
-    t.datetime 'completed_at'
-    t.string 'import_status', default: 'created'
-    t.integer 'count_of_created_users', default: 0
-    t.integer 'count_of_not_created_users', default: 0
-    t.integer 'count_of_lines_in_csv', default: 0
+ActiveRecord::Schema.define(version: 2019_10_19_010335) do
+
+  create_table "imports", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "file_file_name"
+    t.string "file_content_type"
+    t.integer "file_file_size"
+    t.datetime "file_updated_at"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.string "import_status", default: "created"
+    t.integer "count_of_created_users", default: 0
+    t.integer "count_of_not_created_users", default: 0
+    t.integer "count_of_lines_in_csv", default: 0
   end
 
-  create_table 'users', force: :cascade do |t|
-    t.string 'first_name', null: false
-    t.string 'last_name', null: false
-    t.string 'email', null: false
-    t.date 'date_of_birth', null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.integer 'import_id'
-    t.index ['import_id'], name: 'index_users_on_import_id'
+  create_table "users", force: :cascade do |t|
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "email", null: false
+    t.date "date_of_birth", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "import_id"
+    t.index ["import_id"], name: "index_users_on_import_id"
   end
+
 end

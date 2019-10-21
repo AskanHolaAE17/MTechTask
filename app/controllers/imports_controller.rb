@@ -71,15 +71,8 @@ class ImportsController < ApplicationController
     render :show
   end
 
+
   def import_process
-    @count_of_created_users     = @import.count_of_created_users.to_s
-    @count_of_not_created_users = @import.count_of_not_created_users.to_s
-    @import_status              = @import.import_status
-
-    @created_at              = @import.created_at
-    @started_at              = @import.started_at || 'not started'
-    @completed_at            = @import.completed_at || 'not completed'
-
     @percentage = if @import.count_of_lines_in_csv > 0
                     (@import.count_of_created_users + @import.count_of_not_created_users).to_f /
                       @import.count_of_lines_in_csv.to_f *
@@ -89,16 +82,15 @@ class ImportsController < ApplicationController
     end
 
     @percentage = @percentage.to_i
-
-    @ended_import = true if @import_status == 'completed'
   end
 
   def show; end
 
   def destroy
+    @import.users.destroy_all
     @import.destroy
     respond_to do |format|
-      format.html { redirect_to imports_url, notice: 'Import was successfully destroyed.' }
+      format.html { redirect_to imports_url, notice: 'Import and associated Users were successfully destroyed.' }
       format.json { head :no_content }
     end
   end

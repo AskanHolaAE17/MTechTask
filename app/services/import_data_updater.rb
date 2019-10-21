@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class ImportDataUpdater < ApplicationService
-  def initialize(import, *row_hash)
+  def initialize(import)
     @import   = import
-    @row_hash = row_hash
   end
 
   def update_after_started
