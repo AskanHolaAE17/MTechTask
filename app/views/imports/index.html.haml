@@ -9,7 +9,7 @@
     - @imports.each do |import|
       %tr
         %td= import.title
-        %td= link_to 'Show', import
+        %td= link_to 'Results', import
         %td= link_to 'To \'Start import\' page', edit_import_path(import)
         %td= link_to 'Destroy', import, method: :delete, data: { confirm: 'Are you sure?' }
 %br/

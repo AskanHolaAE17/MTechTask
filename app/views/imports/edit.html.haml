@@ -2,33 +2,14 @@
   ="#{'/import_process/' + @import.id.to_s}"
   
 
-#block_count_of_successfully_created
-  Count of successfully created customers: 0
-  
-#block_count_of_successfully_created  
-  Count of customers that were not created: 0
-  
-#block_import_status
-  Import Status: created
-  
-#created_at
-  Import created at:
-  =@import.created_at
+=render 'import_details'
 
-#started_at
-  Import started at: not started
-
-#completed_at  
-  Import completed at: not completed
-
-    
 = form_for @import, url: import_path(@import), html: { multipart: true } do |form|
   = form.submit 'Start Import', id: 'submit'
-
-= link_to 'Delete Import', @import, method: :delete
-%br/
-= link_to 'Main Page', imports_path
-
+  
+  
+=render 'import_actions'    
+    
     
 :javascript 
   

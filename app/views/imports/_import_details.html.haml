@@ -1,0 +1,23 @@
+#block_count_of_successfully_created
+  Count of successfully created customers: 
+  =@import.count_of_created_users 
+  
+#block_count_of_successfully_created  
+  Count of customers that were not created: 
+  =@import.count_of_not_created_users 
+  
+#block_import_status
+  Import Status: 
+  =@import.import_status 
+  
+#created_at
+  Import created at:
+  =@import.created_at
+
+#started_at
+  Import started at: 
+  ="#{ @import.started_at || 'not started' }"
+
+#completed_at  
+  Import completed at:
+  ="#{ @import.completed_at || 'not completed' }"

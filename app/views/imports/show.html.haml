@@ -1,3 +1,10 @@
+=render 'import_details'
+
+
+=render 'import_actions'   
+
+
+%hr/
 %p
   Results of import:
 
@@ -14,6 +21,5 @@
         %td= user.email
         %td= user.date_of_birth.to_date.strftime('%e %b, %Y')
 
-= link_to 'Main page', '/'
 
 
