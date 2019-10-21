@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
+# Object Service for Import updating
 class ImportDataUpdater < ApplicationService
   def initialize(import)
-    @import   = import
+    @import = import
   end
 
   def update_after_started

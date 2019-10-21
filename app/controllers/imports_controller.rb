@@ -2,14 +2,13 @@
 
 require 'csv'
 
+# Handler for Import
 class ImportsController < ApplicationController
   before_action :set_import, only: %i[import_process show edit update destroy]
 
   def index
     @imports = Import.all
   end
-
-  def show; end
 
   def new
     @import = Import.new
@@ -32,14 +31,6 @@ class ImportsController < ApplicationController
   end
 
   def update
-    def make_the_date_valid(row_hash)
-      if row_hash['date_of_birth']
-        date = row_hash['date_of_birth'].split('/')
-        row_hash['date_of_birth'] = date[1] + '/' + date[0] + '/' + date[2]
-      end
-      row_hash
-    end
-
     users = []
     ImportDataUpdater.update_after_started(@import)
 
@@ -61,7 +52,7 @@ class ImportsController < ApplicationController
         @import.count_of_not_created_users += 1
       end
 
-      @import.save if index % 10 == 0
+      @import.save if (index % 10).zero?
     end
 
     ImportDataUpdater.update_after_completed(@import)
@@ -71,20 +62,20 @@ class ImportsController < ApplicationController
     render :show
   end
 
-
   def import_process
-    @percentage = if @import.count_of_lines_in_csv > 0
-                    (@import.count_of_created_users + @import.count_of_not_created_users).to_f /
-                      @import.count_of_lines_in_csv.to_f *
+    @percentage = if @import.count_of_lines_in_csv.positive?
+                    (@import.count_of_created_users +
+                     @import.count_of_not_created_users).to_f /
+                      @import.count_of_lines_in_csv *
                       100
                   else
                     0
-    end
+                  end
 
     @percentage = @percentage.to_i
   end
-
-  def show; end
+  
+  def show; end  
 
   def destroy
     @import.users.destroy_all

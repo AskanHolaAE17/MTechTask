@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
+# Object Service for declaration of new Import objects
 class ImportCreator < ApplicationService
   def call
-    import = Import.create do |config|
+    Import.create do |config|
       config.title             = 'Import Test'
       config.file_file_name    = '4_users.csv'
       config.file_content_type = 'text/plain'
@@ -11,7 +12,7 @@ class ImportCreator < ApplicationService
   end
 
   def new_with_all_params
-    import = Import.new do |config|
+    Import.new do |config|
       config.title             = 'Import Test'
       config.file_file_name    = '4_users.csv'
       config.file_content_type = 'text/plain'
