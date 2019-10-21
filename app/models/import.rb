@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Validations for Import model
 class Import < ApplicationRecord
   has_many :users
 

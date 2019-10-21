@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Object Service for declaration of new User objects
 class UserService < ApplicationService
   def call
     user = User.create do |config|
