@@ -1,0 +1,394 @@
+- if rails c 
+- error: cannt shared files ruby 2.5.0 readline.so
+rvm reinstall 2.5.0
+
+- for rollbck DB in steps
+rake db:rollback STEP=2
+
+- The 4th parameter is optional. It allows to set the default value for the column
+change_column_null :profiles, :access_items, false, 1
+
+
+- namespace :admin do
+-   root to: "admin#index"
+- end
+- root to: "home#index"
+
+__________________________
+
+/bin/bash --login
+
+
+# NEW APPLICATION
+
+/bin/bash --login
+rails new
+ctrl^C
+
+# HEROKU
+curl https://cli-assets.heroku.com/install.sh | sh
+
+in>> Gemfile
+>>setted sqlite3 gem for development env
+>>setted pg gem for production env
+
+bundle install --path vendor/bundle --without production
+
+bundle exec rails db:create
+bundle exec rails db:migrate
+
+# GIT 
+
+git init
+git add .
+git commit -m 'The first commit of the repository'
+git remote add origin https://github.com/AskanHolaAE17/MTechTask.git
+git push -u origin master
+
+heroku login
+heroku git:remote -a maticstart
+
+git push heroku master
+heroku run rails db:migrate
+https://m-matic-task.herokuapp.com/
+
+
+
+#AWS 
+# Amazon Web Services' (AWS) Simple Storage Service (S3) 
+# FILE STORAGING
+
+http://rusrails.ru/active_storage_overview
+https://devcenter.heroku.com/articles/active-storage-on-heroku
+
+rails active_storage:install
+rails db:migrate
+
+in all>> config/environments/ development.rb | production.rb | test.rb 
+>>config.active_storage.service = :local | :amazon | :test 
+
+in>> config/storage.yml
+>>amazon:
+>>  service: S3
+>>  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
+>>  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
+>>  region: 'eu-west-3'
+>>  bucket: '' 
+
+in>> Gemfile
+>> gem 'aws-sdk-s3', require: false
+bundle install 
+
+#Getting of Access Keys
+https://console.aws.amazon.com/iam/home#/home
+https://docs.aws.amazon.com/en_us/sdk-for-ruby/v3/developer-guide/setup-config.html
+user_name: matic_task
+Access key ID: ...
+Secret access key: /...
+
+#Saving the Access Keys in App
+https://www.engineyard.com/blog/rails-encrypted-credentials-on-rails-5.2
+#with your_text_editor in EDITOR
+sudo EDITOR=gedit bin/rails credentials:edit
+in file>>AccessKeys
+heroku config:set RAILS_MASTER_KEY=`...`
+
+DEPLOY
+heroku run rails db:migrate
+heroku logs --tail
+heroku run rails console
+
+
+#RSpec test Env
+in>> Gemfile
+gem 'rspec-rails' # in Dev
+bundle install 
+
+rails g rspec:install
+
+
+# APP DEVELOPMENT
+#Import Model and Controller
+rails g model Import title:string
+rails db:migrate
+rails g controller Imports index
+
+#User Model and Controller
+rails g model User first_name:string last_name:string email:string date_of_birth:date
+in>> migrate_file
+, null: false # to each column
+rails db:migrate
+rails g controller Users 
+
+
+# RSpec Testing
+rails db:migrate
+rails db:test:prepare
+rails # run all spec tests
+
+#run 1 test file
+bundle exec rspec spec/models/dummy_model_spec.rb
+
+#run just Models' Tests
+bundle exec rspec spec/models
+
+- что # просто ссылается на метод экземпляра, а точка. зарезервировано для методов класса
+- it - подумайте о том, чего может и должна достичь самая маленькая и простая реализация этой части головоломки
+
+# the 1st Test -> Failure
+in>> spec/models/import_spec.rb
+>>require 'rails_helper'
+>>RSpec.describe Import, type: :model do
+>>  # pending "add some examples to (or delete) #{__FILE__}"
+>>  it 'object saves only with not null title' do
+>>    # Setup
+>>    import = Import.create  
+>>    # Exercise      
+>>    # Verify
+>>    expect(import).to be_nil    
+>>    # Cleaning
+>>    import.delete
+>>  end
+>>end
+
+# Made it GREEN
+rails g migration ChangeColumnNullOfTitleInImports
+in>> migration file
+>>class ChangeColumnNullOfTitleInImports < ActiveRecord::Migration[5.2]
+>>  def self.up
+>>    change_column_null :imports, :title, false
+>>  end
+>>  def self.down
+>>    change_column_null :imports, :title, true
+>>  end 
+>>end
+rails db:migrate
+
+in> ImportModel
+>>  validates :title, presence: true
+
+
+
+# ATTACHMENT
+-  You'll need to add <attachment>_content_type in case you want to use content type validation
+in>> Gemfile
+>> gem 'paperclip', '~> 6.0.0'
+rails g paperclip import file
+
+in>> Model
+  validates :title, presence: { message: ' should be filled' }
+  validates :title, length:   { maximum: 200, 
+                                too_long: '200 characters is the maximum allowed' }  
+  has_attached_file :file
+  validates_attachment_presence :file
+  validates_attachment_size :file, less_than: 10.megabytes
+  do_not_validate_attachment_file_type :file
+
+in>> controller#create
+>> @import = Import.create(import_params)
+    respond_to do |format|
+      if @import.save
+        format.html { render :edit }
+        format.json { render :edit, status: :created, location: @import }
+      else
+        format.html { render :new }
+        format.json { render json: @import.errors, status: :unprocessable_entity }
+      end
+    end
+    
+in>> controller private section
+>>  private
+>>    def import_params
+      params.require(:import).permit(:title, :file)
+>>    end
+
+in>> routes.rb
+root 'imports#index'
+
+
+
+# GIT BRANCHES
+bundle
+DEPLOY before new Branch creating | ~$ git pull
+
+git checkout -b Data-import-from-CSV   # Switch to a new branch
+~git branch -a   # List of all branches
+~git checkout branch-name   # Switch to some branch
+# Data-import-from-CSV 
+# Import-Details-Page
+# Rubocop
+# Active-Job-for-Import-details-updating
+git remote add Import-Details-Page https://github.com/AskanHolaAE17/MTechTask.git
+git push -u origin Import-Details-Page
+git push heroku Import-Details-Page
+~git merge | git pull
+~git push -u origin master
+~git push heroku master
+git fetch origin   # it's "harmless" nature, you can rest assured
+
+
+# CSV DATA IMPORT (pending)
+in>> Gemfile
+gem 'activerecord-import'
+in>> ImportController   # on the 1st line
+require 'csv'
+
+in>> ImportController#update
+    items = []
+    CSV.foreach(@import.file.path, headers: true) do |row|
+      items << row.to_h
+      break
+    end
+    User.import(items) 
+    redirect_to '/users'
+
+rails g migration add_import_reference_to_users import:references
+in>> Import Model
+  has_many :users	
+
+in>> User Model
+  belongs_to :import    
+  
+  
+  
+# RESTART SERVER
+
+lsof -wni tcp:3000
+kill -9 PID_NUMBER  
+
+
+
+
+
+
+Imports#update page:
+
+Import details should display:
+* count of successfully created customers from files.
+* count of customers that were not created due to validation errors.
+* import status - created, started, completed. 
+by default - created.
+* created at - time when import was created.
+* started at - time when import was started.
+* completed_at - time when import was finished.
++ 'Start Import' button. 
+The button has to start processing the import file and create customers.
+* 'Delete Import' button
+____
+*Progress of import in percentage - this is not required but nice to have. 
+This field should show the progress of processing import file, 
+how many customers are created/failed at the moment. 
+
+For example, you uploaded a file with tons of records. 
+Processing all user data can take more than an hour, 
+would be good to see the progress of the import (46%)
+
+
+# RSpec
+rails g rspec:model import 
+The generator is available for:
+scaffold
+model
+controller
+helper
+view
+mailer
+observer
+integration
+feature
+job
+https://relishapp.com/rspec/rspec-rails/docs/generators
+
+
+
+# Active Jobs
+
+# Sidekiq install
+gem 'sidekiq'
+~(bundle exec sidekiq)
+
+# Redis install   # gem installed with Sidekiq gem
+curl -O http://download.redis.io/redis-stable.tar.gz
+tar xzvf redis-stable.tar.gz
+cd redis-stable
+make
+make test
+sudo make install
+sudo mkdir /etc/redis
+sudo cp /tmp/redis-stable/redis.conf /etc/redis
+sudo nano /etc/redis/redis.conf
+->config from here: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04
+  and:
+in>> in app_folder
+redis-server
+CTRL^C
+~(redis-cli)
+in>> Gemfile gem 
+  'sinatra', github: 'sinatra/sinatra'
+bundle
+  and:
+create correspondent program code from:
+https://github.com/mperham/sidekiq/wiki/Getting-Started
+  and:
+in the 1st terminal:
+**  rails s -p 3003
+in the 2nd terminal:
+**  redis-server
+visit website: http://localhost:3003/sidekiq
+in>> rotes.rb
+    require 'sidekiq/web'
+  mount Sidekiq::Web => "/sidekiq"
+in>> config/initializers/sdekiq.rb
+  Sidekiq.configure_server do |config|
+    config.redis = { url: 'redis://localhost:6379/0' }
+  end
+  Sidekiq.configure_client do |config|
+    config.redis = { url: 'redis://localhost:6379/0' }
+  end
+  
+progress of queues:
+http://localhost:3003/sidekiq
+  
+to see the backgroud processes:
+**bundle exec sidekiq -c 1
+(the result of executing of backgr method in outputting)  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
