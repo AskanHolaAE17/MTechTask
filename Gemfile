@@ -43,14 +43,14 @@ gem 'sass'
 
 # Add attachments
 gem 'paperclip', '~> 6.0.0'
-
 # Data import from CSV files
 gem 'activerecord-import'
-
-# Date validation
 gem 'date_validator'
 
 gem 'rubocop'
+
+gem 'sidekiq'
+gem 'sinatra', github: 'sinatra/sinatra'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution

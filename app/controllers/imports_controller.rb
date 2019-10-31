@@ -8,6 +8,7 @@ class ImportsController < ApplicationController
 
   def index
     @imports = Import.all
+    HardWorker.perform_async('Hard Worker works')
   end
 
   def new
