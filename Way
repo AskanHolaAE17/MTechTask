@@ -352,6 +352,11 @@ http://localhost:3003/sidekiq
 to see the backgroud processes:
 **bundle exec sidekiq -c 1
 (the result of executing of backgr method in outputting)  
+  
+  1 - is an amount of concurrency in your Sidekiq process. 
+  By default, one sidekiq process creates 10 threads. 
+  If that's crushing your machine with I/O, you can adjust it down
+  Don't recommend setting concurrency higher than 50.
 
 
 
