@@ -219,8 +219,8 @@ git checkout -b Data-import-from-CSV   # Switch to a new branch
 # Rubocop
 # Active-Job-for-Import-details-updating
 git remote add Import-Details-Page https://github.com/AskanHolaAE17/MTechTask.git
-git push -u origin Import-Details-Page
-git push heroku Import-Details-Page
+git push -u origin Active-Job-for-Import-details-updating
+git push heroku Active-Job-for-Import-details-updating
 ~git merge | git pull
 ~git push -u origin master
 ~git push heroku master
