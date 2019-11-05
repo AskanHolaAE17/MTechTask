@@ -9,6 +9,4 @@ Rails.application.routes.draw do
 
   resources :imports
 
-  get '/reset_the_database/:id', to: 'imports#reset_the_database'
-  get '/reset_the_database', to: 'imports#reset_the_database'
 end

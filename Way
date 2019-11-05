@@ -220,8 +220,8 @@ git checkout -b Fixing-Heroku-error-after-Sidekiq-and-Redis   # Switch to a new 
 # Active-Job-for-Import-details-updating
 # Fixing-Heroku-error-after-Sidekiq-and-Redis
 git remote add Fixing-Heroku-error-after-Sidekiq-and-Redis https://github.com/AskanHolaAE17/MTechTask.git
-git push -u origin Active-Job-for-Import-details-updating
-git push heroku Active-Job-for-Import-details-updating
+git push -u origin Fixing-Heroku-error-after-Sidekiq-and-Redis
+git push heroku Fixing-Heroku-error-after-Sidekiq-and-Redis:master
 ~git merge | git pull
 ~git push -u origin master
 ~git push heroku master

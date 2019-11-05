@@ -45,15 +45,6 @@ class ImportsController < ApplicationController
     end
   end
   
-  def reset_the_database
-    if params[:id] == '5'
-      User.limit(1000).destroy_all
-      Import.limit(1).destroy_all
-    end        
-  
-    @users_count   = User.all.count
-    @imports_count = Import.all.count
-  end
 
   private
 
