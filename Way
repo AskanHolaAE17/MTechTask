@@ -211,14 +211,15 @@ root 'imports#index'
 bundle
 DEPLOY before new Branch creating | ~$ git pull
 
-git checkout -b Data-import-from-CSV   # Switch to a new branch
+git checkout -b Fixing-Heroku-error-after-Sidekiq-and-Redis   # Switch to a new branch
 ~git branch -a   # List of all branches
 ~git checkout branch-name   # Switch to some branch
 # Data-import-from-CSV 
 # Import-Details-Page
 # Rubocop
 # Active-Job-for-Import-details-updating
-git remote add Import-Details-Page https://github.com/AskanHolaAE17/MTechTask.git
+# Fixing-Heroku-error-after-Sidekiq-and-Redis
+git remote add Fixing-Heroku-error-after-Sidekiq-and-Redis https://github.com/AskanHolaAE17/MTechTask.git
 git push -u origin Active-Job-for-Import-details-updating
 git push heroku Active-Job-for-Import-details-updating
 ~git merge | git pull
