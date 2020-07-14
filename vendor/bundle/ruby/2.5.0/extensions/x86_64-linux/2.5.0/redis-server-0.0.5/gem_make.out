@@ -1,0 +1,38 @@
+current directory: /home/vitalina/r/matic/MTechTask/vendor/bundle/ruby/2.5.0/gems/redis-server-0.0.5/redis
+/home/vitalina/.rvm/rubies/ruby-2.5.0/bin/ruby -r ./siteconf20191031-10448-mfn6ak.rb extconf.rb
+
+current directory: /home/vitalina/r/matic/MTechTask/vendor/bundle/ruby/2.5.0/gems/redis-server-0.0.5/redis
+make "DESTDIR=" clean
+make: *** Нема правила для створення цілі "clean".  Зупинка.
+
+current directory: /home/vitalina/r/matic/MTechTask/vendor/bundle/ruby/2.5.0/gems/redis-server-0.0.5/redis
+make "DESTDIR="
+cd redis-2.2.14 && make all
+make[1]: входимо до каталогу «/home/vitalina/r/matic/MTechTask/vendor/bundle/ruby/2.5.0/gems/redis-server-0.0.5/redis/redis-2.2.14»
+cd src && make all
+make[2]: входимо до каталогу «/home/vitalina/r/matic/MTechTask/vendor/bundle/ruby/2.5.0/gems/redis-server-0.0.5/redis/redis-2.2.14/src»
+[32;1mMAKE[0m [37;1mhiredis[0m
+cd ../deps/hiredis && make static ARCH=""
+make[3]: входимо до каталогу «/home/vitalina/r/matic/MTechTask/vendor/bundle/ruby/2.5.0/gems/redis-server-0.0.5/redis/redis-2.2.14/deps/hiredis»
+cc -c -std=c99 -pedantic -O3 -fPIC -Wall -W -Wwrite-strings    -g -ggdb  net.c
+У файлі, який включено у /usr/include/sys/types.h:25,
+                 з net.c:33:
+/usr/include/features.h:185:3: попередження: #warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE" [-Wcpp]
+  185 | # warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE"
+      |   ^~~~~~~
+cc -c -std=c99 -pedantic -O3 -fPIC -Wall -W -Wwrite-strings    -g -ggdb  hiredis.c
+У файлі, який включено у hiredis.h:35,
+                 з hiredis.c:39:
+hiredis.c: У функції ‘redisvFormatCommand’:
+hiredis.c:696:31: помилка: second argument to ‘va_arg’ is of incomplete type ‘void’
+  696 |                     va_arg(ap,void);
+      |                               ^~~~
+make[3]: *** [Makefile:89: hiredis.o] Помилка 1
+make[3]: Залишаю каталог "/home/vitalina/r/matic/MTechTask/vendor/bundle/ruby/2.5.0/gems/redis-server-0.0.5/redis/redis-2.2.14/deps/hiredis"
+make[2]: *** [Makefile:128: dependencies] Помилка 2
+make[2]: Залишаю каталог "/home/vitalina/r/matic/MTechTask/vendor/bundle/ruby/2.5.0/gems/redis-server-0.0.5/redis/redis-2.2.14/src"
+make[1]: *** [Makefile:6: all] Помилка 2
+make[1]: Залишаю каталог "/home/vitalina/r/matic/MTechTask/vendor/bundle/ruby/2.5.0/gems/redis-server-0.0.5/redis/redis-2.2.14"
+make: *** [Makefile:2: all] Помилка 2
+
+make failed, exit code 2
